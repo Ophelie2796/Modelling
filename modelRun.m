@@ -48,8 +48,8 @@ T_FCOF(4,:) = [0 0 0 1];
 
 
 % Drop Jump data
-load('..\frames\IntRotHopKinematics\IntRotHopData_men.csv')
-load('..\frames\IntRotHopKinematics\IntRotHopData_women.csv') 
+load('..\knee-kinematics\HealthyKinematic\20220301_Update\frames\IntRotHopKinematics\IntRotHopData_men.csv')
+load('..\knee-kinematics\HealthyKinematic\20220301_Update\frames\IntRotHopKinematics\IntRotHopData_women.csv') 
     
 % Identify columns: positive motion of femur wrt tibia
 setting =  IntRotHopData_women(:,1); 
