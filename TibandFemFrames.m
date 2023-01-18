@@ -75,10 +75,17 @@ for i = 1:n
 end
 
 %% plot
+myVideo = VideoWriter('myVideoFile');
+myVideo.FrameRate = 30;
+open(myVideo)
+
 for i = 1:n
     ux_femtib_traj = T{i}*[1000 0 0 1]';
     uy_femtib_traj = T{i}*[0 1000 0 1]';
     uz_femtib_traj = T{i}*[0 0 1000 1]';
     myplot(T{i}(1:3,4),ux_femtib_traj,uy_femtib_traj,uz_femtib_traj,'k','k','k','k',2)
-    pause
+    drawnow
+    frame = getframe(gcf);
+    writeVideo(myVideo,frame);
 end
+close(myVideo)
