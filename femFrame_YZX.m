@@ -21,7 +21,15 @@ Femur = Leg(Leg(:,3)<700 & Leg(:,3)>400,:);
 x_fem = Femur(:,1);
 y_fem = Femur(:,2);
 z_fem = Femur(:,3);
-plot3(x_fem,y_fem,z_fem,'b*')
+plot3(x_fem,y_fem,z_fem,'g*')
+
+% Identify pelvis: Filter points z>700
+plot3(x_fem,y_fem,z_fem,'g*')
+pelvis = Leg(Leg(:,3)>700,:);
+x_pelvis = pelvis(:,1);
+y_pelvis = pelvis(:,2);
+z_pelvis = pelvis(:,3);
+plot3(x_pelvis,y_pelvis,z_pelvis,'b*')
 
 %% Identify MLAP proximal femur bone
 proximal_fem = Leg(Leg(:,3)>900 & Leg(:,3)<1200,:);
