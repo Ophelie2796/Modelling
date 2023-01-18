@@ -71,7 +71,7 @@ kneeID = 0; % right knee = 0 ; left knee = 1
 
 T= cell(n,1);
 for i = 1:n
-   T{i} = T_tibground*T_FemTib_Traj{i};
+   T{i} = T_tibground*T_FemTib_Traj{i}; % T = Fem wrt ground
 end
 
 %% plot
