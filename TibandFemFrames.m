@@ -20,8 +20,25 @@ x = Leg.Points(:,1);
 y = Leg.Points(:,2);
 z = Leg.Points(:,3);
 
+%% Remove patella and fibula 
+x_knee = x;
+x_knee(6200:6750) = [];
+y_knee = y;
+y_knee(6200:6750) = [];
+z_knee = z;
+z_knee(6200:6750) = [];
+Leg = [x_knee, y_knee, z_knee];
+
+%% Plot leg without patella
+figure;
+plot3(x_knee,y_knee,z_knee,'k*')
+axis equal
+xlabel('X-axis')
+ylabel('Y-axis')
+zlabel('Z-axis')
+
 %% Identify tibia
-[P_range, A_range, L_tib, M_tib, O_distal_tib] = AP_rangeFilter(x,y,z);
+[P_range, A_range, L_tib, M_tib, O_distal_tib] = AP_rangeFilter(x,y,z,Leg);
 
 %% Average Posterior point
 P_tibAvg = mean(P_range);
@@ -80,7 +97,7 @@ myVideo.FrameRate = 30;
 open(myVideo)
 
 for i = 1:n
-    ux_femtib_traj = T{i}*[1000 0 0 1]';
+    ux_femtib_traj = T{i}*[1000 0 0 1]'; %T_fem wrt ground*pt_fem
     uy_femtib_traj = T{i}*[0 1000 0 1]';
     uz_femtib_traj = T{i}*[0 0 1000 1]';
     myplot(T{i}(1:3,4),ux_femtib_traj,uy_femtib_traj,uz_femtib_traj,'k','k','k','k',2)
@@ -89,3 +106,28 @@ for i = 1:n
     writeVideo(myVideo,frame);
 end
 close(myVideo)
+
+%% plot of leg moving
+% identify femur and pelvis
+% points in ground frame
+topLeg = Leg(Leg(:,3)>400,:);
+
+% Convert points into femur frame
+for i = 1:length(topLeg)
+leg_fem(i,:) = inv(T_femground)* [topLeg(i,:) 1]';
+end
+
+legfem_traj = cell(1,n);
+legground_traj = cell(1,n);
+
+for i = 1:n
+    for j = 1: length(topLeg)
+    legground_traj{i}(j,:) = (T{i})*leg_fem(j,:)';
+   
+    end
+   plot3(legground_traj{i}(:,1),legground_traj{i}(:,2),legground_traj{i}(:,3),'k*')
+    drawnow
+    frame = getframe(gcf);
+end
+
+
