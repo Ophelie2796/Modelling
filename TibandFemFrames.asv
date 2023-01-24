@@ -110,7 +110,7 @@ end
 close(myVideo)
 
 %% plot of leg moving
-%plot
+%% plot
 figure;
 bottom_leg = Leg(Leg(:,3)<400,:);
 plot3(bottom_leg(:,1),bottom_leg(:,2),bottom_leg(:,3),'k*')
@@ -132,44 +132,40 @@ end
 legfem_traj = cell(1,n);
 legground_traj = cell(1,n);
 
-for i = 1:n
+for i = 1%:n
     for j = 1: length(topLeg)
     legground_traj{i}(j,:) = (T{i})*leg_fem(j,:)';
    
     end
     
-    plot3(legground_traj{i}(:,1),legground_traj{i}(:,2),legground_traj{i}(:,3),'k*')
-    fem_insertion = legground_traj{i}(4500,:);
-    plot3(fem_insertion(1),fem_insertion(2),fem_insertion(3),'r*','Linewidth',5)
-
+   plot3(legground_traj{i}(:,1),legground_traj{i}(:,2),legground_traj{i}(:,3),'k*')
     drawnow
     frame = getframe(gcf);
+    
 end
 
 %% femur point
-fem_insertion = legground_traj{i}(4500,:);
+fem_insertion = legground_traj{i}(100,:);
 tib_insertion = bottom_leg(100,:);
 hold on 
 plot3(fem_insertion(1),fem_insertion(2),fem_insertion(3),'r*','Linewidth',5)
 plot3(tib_insertion(1),tib_insertion(2),tib_insertion(3),'r*','Linewidth',5)
-%%
+
 % global strain
 distance = cell(1,n);
 for i = 1:n
-    distance{i} = legground_traj{i}(100,1:3)-tib_insertion;
-    dist_instance(i) = sqrt(distance{i}(1)^2+distance{i}(2)^2+distance{i}(3)^2);
+    distance{ = legground_traj{i}(100,1:3)-tib_insertion;
 end
-max = max(dist_instance)/1000; %mm
 
 %% making it prettyyy
 figure;
 trisurf(Leg_stl)
 axis equal
 
-% %%
-% figure;
-% x= [Leg(Leg(:,3)<400,1) ; legground_traj{1}(:,1)];
-% y= [Leg(Leg(:,3)<400,1) ; legground_traj{1}(:,2)];
-% z= [Leg(Leg(:,3)<400,1) ; legground_traj{1}(:,3)];
-% connect = delaunay(x,y,z);
-% trisurf(Leg_stl,connect)
+%%
+figure;
+x= [Leg(Leg(:,3)<400,1) ; legground_traj{1}(:,1)];
+y= [Leg(Leg(:,3)<400,1) ; legground_traj{1}(:,2)];
+z= [Leg(Leg(:,3)<400,1) ; legground_traj{1}(:,3)];
+connect = delaunay(x,y,z);
+trimesh(Leg_stl,connect)
