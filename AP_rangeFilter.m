@@ -1,27 +1,10 @@
-function [P_range, A_range, L_tib,M_tib, O_distal_tib] = AP_rangeFilter(x,y,z)
-
-%% Remove patella and fibula 
-x_knee = x;
-x_knee(6200:6750) = [];
-y_knee = y;
-y_knee(6200:6750) = [];
-z_knee = z;
-z_knee(6200:6750) = [];
-Leg = [x_knee, y_knee, z_knee];
-
-%% Plot leg without patella
-figure;
-plot3(x_knee,y_knee,z_knee,'k*')
-axis equal
-xlabel('X-axis')
-ylabel('Y-axis')
-zlabel('Z-axis')
+function [P_range, A_range, L_tib,M_tib, O_distal_tib] = AP_rangeFilter(x,y,z,Leg)
 
 %% Identify tibia: Filter points 0<z<400 
 Tibia = Leg(Leg(:,3)<400,:);
 Tibia = Tibia(Tibia(:,3)>0,:);
 hold on
-plot3(Tibia(:,1),Tibia(:,2),Tibia(:,3),'r*')
+plot3(Tibia(:,1),Tibia(:,2),Tibia(:,3),'k*')
 
 x_tib = Tibia(:,1);
 y_tib = Tibia(:,2);
